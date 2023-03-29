@@ -13,12 +13,14 @@ function gameBoard() {
 
     const getBoard = () => board;
 
-    const placeToken = (column, player) => {
+    const placeToken = (row, column, player) => {
       const availableCells = [];
       for (let i = rows - 1; i >= 0; i--) {
         if (board[i][column].getValue() === 0) {
-          availableCells.push(board[i][column]);
-          break;
+            availableCells.push(board[i][column]);
+            (board[i][row].getValue()===0)
+            availableCells.push(board[i][row])
+        }  
         }
       }
 
