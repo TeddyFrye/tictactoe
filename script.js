@@ -1,32 +1,24 @@
-function playGame(){
 function gameBoard() {
     const rows = 3;
     const columns = 3;
-    const board = [];
+    const cells = [];
 
     for (let i = 0; i < rows; i++) {
-      board[i] = [];
+        cells[i] = [];
       for (let j = 0; j < columns; j++) {
-        board[i].push(Cell());
+        cells[i].push(Cell());
       }
     }
 
-    const getBoard = () => board;
+    const getBoard = () => cells;
 
+    
     const placeToken = (row, column, player) => {
-      const availableCells = [];
-      for (let i = rows - 1; i >= 0; i--) {
-        if (board[i][column].getValue() === 0) {
-            availableCells.push(board[i][column]);
-            (board[i][row].getValue()===0)
-            availableCells.push(board[i][row])
-        }  
-        }
-      }
+        // get cell at row and column
+        const cell = cells[row][column]
 
-      if (!availableCells.length) return;
-
-      availableCells[0].addToken(player);
+        // set cell to player token
+        cell.toPlayer(player)
     };
 
     const printBoard = () => {
@@ -34,26 +26,36 @@ function gameBoard() {
       for (let i = 0; i < rows; i++) {
         const rowWithCellValues = [];
         for (let j = 0; j < columns; j++) {
-          rowWithCellValues.push(board[i][j].getValue());
+          rowWithCellValues.push(cells[i][j].getValue());
         }
         boardWithCellValues.push(rowWithCellValues);
       }
       console.log(boardWithCellValues);
     };
-return { getBoard, placeToken, printBoard };
+return { getBoard,
+    placeToken,
+    printBoard };
 }
 
 
 function Cell() {
   let value = 0;
-  const addToken = (player) => {
-    value = player;
+
+  const setValue = (to_value) => {
+    value = to_value;
   };
-    const getValue = () => value;
+  
+  const getValue = () => value;
+
+  const toPlayer = (player) => {
+    setValue(player.token)
+  }
 
   return {
-    addToken,
-    getValue
+    setValue,
+    getValue,
+    toPlayer,
+    value
   };
 }
 
@@ -90,7 +92,7 @@ function gameController(
     console.log(
       `Placing ${getActivePlayer().name}'s token into row ${row}, column ${column}...`
     );
-    board.placeToken(column, row, getActivePlayer().token);
+    board.placeToken(row, column, getActivePlayer());
 
     switchPlayerTurn();
     printNewRound();
@@ -104,5 +106,3 @@ function gameController(
 }
 
 const game = gameController();
-}
-console.log(playGame());
