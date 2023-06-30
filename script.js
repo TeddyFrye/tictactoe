@@ -32,7 +32,49 @@ function gameBoard() {
     }
     console.log(boardWithCellValues);
   };
-  return { getBoard, placeToken, printBoard };
+  const checkWin = () => {
+    // Check rows for win
+    for (let i = 0; i < rows; i++) {
+      if (
+        cells[i][0].getValue() === cells[i][1].getValue() &&
+        cells[i][1].getValue() === cells[i][2].getValue() &&
+        cells[i][0].getValue() !== 0
+      ) {
+        return true;
+        console.log("Game over");
+      }
+    }
+
+    // Check columns for win
+    for (let i = 0; i < columns; i++) {
+      if (
+        cells[0][i].getValue() === cells[1][i].getValue() &&
+        cells[1][i].getValue() === cells[2][i].getValue() &&
+        cells[0][i].getValue() !== 0
+      ) {
+        return true;
+        console.log("Game over");
+      }
+    }
+
+    // Check diagonals for win
+    if (
+      (cells[0][0].getValue() === cells[1][1].getValue() &&
+        cells[1][1].getValue() === cells[2][2].getValue() &&
+        cells[0][0].getValue() !== 0) ||
+      (cells[0][2].getValue() === cells[1][1].getValue() &&
+        cells[1][1].getValue() === cells[2][0].getValue() &&
+        cells[0][2].getValue() !== 0)
+    ) {
+      return true;
+      console.log("Game over");
+    }
+
+    // No win found
+    return false;
+  };
+
+  return { getBoard, placeToken, printBoard, checkWin };
 }
 
 function Cell() {
@@ -95,12 +137,17 @@ function gameController(
 
     switchPlayerTurn();
     printNewRound();
-  };
+    if (board.checkWin()) {
+      // Added win condition check
+      console.log(`${getActivePlayer().name} wins!`);
+      return;
+    }
 
-  printNewRound();
-  return {
-    playRound,
-    getActivePlayer,
+    printNewRound();
+    return {
+      playRound,
+      getActivePlayer,
+    };
   };
 }
 
