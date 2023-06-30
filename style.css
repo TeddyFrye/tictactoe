@@ -18,6 +18,9 @@ h1 {
   font-weight: bold;
   text-align: center;
   margin: 0 0 20px;
+  color: rgb(144, 134, 134);
+  text-shadow: 1px 1px 1px #383838;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .board {
@@ -70,19 +73,21 @@ h1 {
   color: #0052cc;
 }
 
-.btn {
+.restart-button {
   background-color: #0052cc;
   color: #fff;
-  font-size: 24px;
+  font-size: 15px;
   font-weight: bold;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  transition: size-adjust 0.3s ease;
   margin-top: 20px;
 }
 
-.btn:hover {
-  background-color: #0066ff;
+.restart-button:hover {
+  background-color: darkblue;
+  size-adjust: 5px;
 }
