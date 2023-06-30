@@ -2,7 +2,7 @@ function gameBoard() {
     const rows = 3;
     const columns = 3;
     const cells = [];
-
+//For loop creating empty cells
     for (let i = 0; i < rows; i++) {
         cells[i] = [];
       for (let j = 0; j < columns; j++) {
@@ -20,6 +20,7 @@ function gameBoard() {
         // set cell to player token
         cell.toPlayer(player)
     };
+    // Nothing preventing placing token over other player
 
     const printBoard = () => {
       const boardWithCellValues = [];
@@ -87,7 +88,7 @@ function gameController(
     board.printBoard();
     console.log(`${getActivePlayer().name}'s turn.`);
   };
-
+//Here is what you use to play a round, e.g. "game.playRound(0,1)"
   const playRound = (row, column) => {
     console.log(
       `Placing ${getActivePlayer().name}'s token into row ${row}, column ${column}...`
