@@ -76,15 +76,15 @@ h1 {
 .restart-button {
   background-color: #0052cc;
   color: #fff;
-  font-size: 15px;
+  font-size: 10px;
   font-weight: bold;
-  padding: 10px 20px;
+  padding: 5px 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   transition: size-adjust 0.3s ease;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .restart-button:hover {
