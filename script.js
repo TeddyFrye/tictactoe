@@ -135,14 +135,13 @@ function gameController(
     );
     board.placeToken(row, column, getActivePlayer());
 
-    switchPlayerTurn();
-
     if (board.checkWin()) {
       // Added win condition check
       console.log(`${getActivePlayer().name} wins!`);
       return;
     }
 
+    switchPlayerTurn();
     printNewRound();
   };
 
