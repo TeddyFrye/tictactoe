@@ -136,7 +136,7 @@ function gameController(
     board.placeToken(row, column, getActivePlayer());
 
     switchPlayerTurn();
-    printNewRound();
+
     if (board.checkWin()) {
       // Added win condition check
       console.log(`${getActivePlayer().name} wins!`);
@@ -144,10 +144,11 @@ function gameController(
     }
 
     printNewRound();
-    return {
-      playRound,
-      getActivePlayer,
-    };
+  };
+
+  return {
+    playRound,
+    getActivePlayer,
   };
 }
 
