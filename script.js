@@ -157,7 +157,9 @@ function gameController(
         getActivePlayer().name
       }'s token into row ${row}, column ${column}...`
     );
-    board.placeToken(row, column, getActivePlayer());
+    if (!board.placeToken(row, column, getActivePlayer())) {
+      return;
+    }
 
     if (board.checkWin()) {
       // Added win condition check
