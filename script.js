@@ -15,9 +15,18 @@ function gameBoard() {
   const placeToken = (row, column, player) => {
     // get cell at row and column
     const cell = cells[row][column];
+    if (cell.getValue() !== 0) {
+      console.log("Cell already taken");
+      return false;
+    }
 
     // set cell to player token
     cell.toPlayer(player);
+
+    // update grid box in HTML
+    const gridBox = document.getElementById(`cell-${row}-${column}`);
+    gridBox.textContent = player.token === 1 ? "X" : "O";
+    return true;
   };
   // Nothing preventing placing token over other player
 
@@ -150,5 +159,19 @@ function gameController(
     getActivePlayer,
   };
 }
+
+// Event listeners for grid boxes
+document.addEventListener("DOMContentLoaded", (event) => {
+  const game = gameController();
+
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      const gridBox = document.getElementById(`cell-${i}-${j}`);
+      gridBox.addEventListener("click", () => {
+        game.playRound(i, j);
+      });
+    }
+  }
+});
 
 const game = gameController();
