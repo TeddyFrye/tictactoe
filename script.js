@@ -1,4 +1,4 @@
-function gameBoard() {
+function gameBoard(getActivePlayer, showWinner, hideBanner) {
   const rows = 3;
   const columns = 3;
   const cells = [];
@@ -43,6 +43,7 @@ function gameBoard() {
     }
     console.log(boardWithCellValues);
   };
+
   const checkWin = () => {
     // Check rows for win
     for (let i = 0; i < rows; i++) {
@@ -51,8 +52,8 @@ function gameBoard() {
         cells[i][1].getValue() === cells[i][2].getValue() &&
         cells[i][0].getValue() !== 0
       ) {
+        showWinner(getActivePlayer());
         return true;
-        console.log("Game over");
       }
     }
 
@@ -63,8 +64,8 @@ function gameBoard() {
         cells[1][i].getValue() === cells[2][i].getValue() &&
         cells[0][i].getValue() !== 0
       ) {
+        showWinner(getActivePlayer());
         return true;
-        console.log("Game over");
       }
     }
 
@@ -77,8 +78,8 @@ function gameBoard() {
         cells[1][1].getValue() === cells[2][0].getValue() &&
         cells[0][2].getValue() !== 0)
     ) {
+      showWinner(getActivePlayer());
       return true;
-      console.log("Game over");
     }
 
     // No win found
@@ -108,12 +109,11 @@ function Cell() {
     value,
   };
 }
-
+/////////////////////////
 function gameController(
   playerOneName = "Player One",
   playerTwoName = "Player Two"
 ) {
-  const board = gameBoard();
   const players = [
     {
       name: playerOneName,
@@ -127,11 +127,24 @@ function gameController(
 
   let activePlayer = players[0];
 
+  const getActivePlayer = () => activePlayer;
+
+  const showWinner = (player) => {
+    const banner = document.getElementById("banner");
+    banner.textContent = `${player.name} wins!`;
+    banner.style.display = "block";
+  };
+
+  const hideBanner = () => {
+    const banner = document.getElementById("banner");
+    banner.style.display = "none";
+  };
+
+  const board = gameBoard(getActivePlayer, showWinner, hideBanner);
+
   const switchPlayerTurn = () => {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
   };
-
-  const getActivePlayer = () => activePlayer;
 
   const printNewRound = () => {
     board.printBoard();
@@ -148,7 +161,6 @@ function gameController(
 
     if (board.checkWin()) {
       // Added win condition check
-      console.log(`${getActivePlayer().name} wins!`);
       return;
     }
 
@@ -173,7 +185,7 @@ function gameController(
     gridBoxes.forEach((box) => {
       box.textContent = "";
     });
-
+    hideBanner();
     printNewRound();
   };
 
@@ -199,6 +211,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
   // Event listener for restart button
   document.querySelector(".restart-button").addEventListener("click", () => {
+    game.restartGame();
+  });
+
+  // Add this to hide banner on click
+  document.getElementById("banner").addEventListener("click", () => {
     game.restartGame();
   });
 });
