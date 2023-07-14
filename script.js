@@ -1,4 +1,4 @@
-function gameBoard(getActivePlayer, showWinner, hideBanner) {
+function gameBoard(getActivePlayer, showWinner, showTie, hideBanner) {
   const rows = 3;
   const columns = 3;
   const cells = [];
@@ -56,7 +56,18 @@ function gameBoard(getActivePlayer, showWinner, hideBanner) {
         return true;
       }
     }
-
+    const checkTie = () => {
+      for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < columns; j++) {
+          // If any cell is not filled (value === 0), then it's not a tie
+          if (cells[i][j].getValue() === 0) {
+            return false;
+          }
+        }
+      }
+      // If all cells are filled, it's a tie
+      return true;
+    };
     // Check columns for win
     for (let i = 0; i < columns; i++) {
       if (
@@ -86,7 +97,7 @@ function gameBoard(getActivePlayer, showWinner, hideBanner) {
     return false;
   };
 
-  return { getBoard, placeToken, printBoard, checkWin };
+  return { getBoard, placeToken, printBoard, checkWin, checkTie };
 }
 
 function Cell() {
@@ -140,7 +151,13 @@ function gameController(
     banner.style.display = "none";
   };
 
-  const board = gameBoard(getActivePlayer, showWinner, hideBanner);
+  const showTie = () => {
+    const banner = document.getElementById("banner");
+    banner.textContent = `It's a tie!`;
+    banner.style.display = "block";
+  };
+
+  const board = gameBoard(getActivePlayer, showWinner, showTie, hideBanner);
 
   const switchPlayerTurn = () => {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -163,6 +180,11 @@ function gameController(
 
     if (board.checkWin()) {
       // Added win condition check
+      return;
+    }
+
+    if (board.checkTie()) {
+      showTie();
       return;
     }
 
